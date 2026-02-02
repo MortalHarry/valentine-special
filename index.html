@@ -25,7 +25,7 @@ body{
   overflow:hidden;
   background:linear-gradient(120deg,var(--pink1),var(--pink2),var(--pink3));
   background-size:400% 400%;
-  animation:bgMove 15s ease infinite;
+  animation:bgMove 16s ease infinite;
 }
 
 @keyframes bgMove{
@@ -38,9 +38,10 @@ body{
 .heart{
   position:fixed;
   bottom:-10vh;
-  font-size:20px;
-  opacity:.3;
+  font-size:18px;
+  opacity:.35;
   animation:floatUp linear infinite;
+  z-index:1;
 }
 @keyframes floatUp{
   from{transform:translateY(0)}
@@ -58,18 +59,18 @@ canvas{
 /* CARD */
 .card{
   background:var(--card);
-  backdrop-filter:blur(12px);
-  padding:28px;
-  border-radius:26px;
-  width:min(760px,94vw);
+  backdrop-filter:blur(14px);
+  padding:30px;
+  border-radius:28px;
+  width:min(780px,94vw);
   text-align:center;
-  box-shadow:0 20px 70px rgba(0,0,0,.25);
+  box-shadow:0 30px 80px rgba(0,0,0,.28);
   z-index:5;
 }
 
 h1{
   font-size:clamp(28px,4vw,46px);
-  margin-bottom:14px;
+  margin-bottom:12px;
 }
 
 /* BUTTONS */
@@ -119,28 +120,59 @@ button{
   margin-top:6px;
 }
 
-/* POLAROID PHOTOS */
+/* POLAROIDS */
 .photos{
-  margin-top:24px;
+  margin-top:26px;
   display:flex;
   justify-content:center;
-  gap:20px;
+  gap:26px;
   flex-wrap:wrap;
 }
+
 .polaroid{
   background:#fff;
-  padding:10px 10px 22px;
+  padding:10px 10px 34px;
   border-radius:6px;
-  width:220px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  width:230px;
+  box-shadow:0 14px 36px rgba(0,0,0,.28);
   transform:rotate(-3deg);
+  position:relative;
 }
-.polaroid:nth-child(2){
+.polaroid.right{
   transform:rotate(4deg);
 }
+
 .polaroid img{
   width:100%;
   border-radius:4px;
+}
+
+/* STACKED MINI PHOTO */
+.polaroid.stacked{
+  position:relative;
+}
+.polaroid.stacked .mini{
+  position:absolute;
+  bottom:38px;
+  right:14px;
+  width:80px;
+  background:white;
+  padding:4px;
+  border-radius:6px;
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
+  transform:rotate(-8deg);
+}
+
+/* CAPTIONS */
+.caption{
+  position:absolute;
+  bottom:8px;
+  width:100%;
+  text-align:center;
+  font-family:"Comic Sans MS","Segoe Script",cursive;
+  font-size:18px;
+  color:#333;
+  opacity:.85;
 }
 
 /* START OVERLAY */
@@ -171,7 +203,7 @@ button{
   <button id="start">Tap to start ☀️</button>
 </div>
 
-<!-- AUDIO (UNCHANGED) -->
+<!-- AUDIO (unchanged) -->
 <audio id="music" loop preload="auto">
   <source src="sunshine.mp3" type="audio/mpeg">
 </audio>
@@ -189,25 +221,31 @@ button{
     <div class="love">I will love you until my last breath.</div>
 
     <div class="photos">
-      <div class="polaroid">
+      <!-- POLAROID 1 (STACKED) -->
+      <div class="polaroid stacked">
         <img src="photo1.jpeg" alt="memory">
+        <img src="photo3.jpeg" class="mini" alt="memory mini">
+        <div class="caption">us</div>
       </div>
-      <div class="polaroid">
+
+      <!-- POLAROID 2 -->
+      <div class="polaroid right">
         <img src="photo2.jpeg" alt="memory">
+        <div class="caption">always</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-/* FLOATING HEARTS */
-for(let i=0;i<20;i++){
+/* HEARTS */
+for(let i=0;i<22;i++){
   const h=document.createElement("div");
   h.className="heart";
   h.textContent="💗";
   h.style.left=Math.random()*100+"vw";
   h.style.animationDuration=10+Math.random()*10+"s";
-  h.style.fontSize=14+Math.random()*20+"px";
+  h.style.fontSize=14+Math.random()*18+"px";
   document.body.appendChild(h);
 }
 
@@ -264,4 +302,3 @@ no.onclick=e=>{
 
 </body>
 </html>
-
