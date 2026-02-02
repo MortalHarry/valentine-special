@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Will you be my Valentine?</title>
+<title>You Are My Sunshine ☀️</title>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
 <style>
 :root{
-  --pink1:#ffd6e7;
-  --pink2:#ffeef6;
-  --hot:#ff3b7a;
+  --pink1:#ff9a9e;
+  --pink2:#fad0c4;
+  --pink3:#ffd1ff;
+  --card:#ffffffdd;
 }
 *{box-sizing:border-box}
 
@@ -20,11 +21,33 @@ body{
   min-height:100vh;
   display:grid;
   place-items:center;
-  background:radial-gradient(circle,var(--pink2),var(--pink1));
   font-family:system-ui,sans-serif;
   overflow:hidden;
+  background:linear-gradient(120deg,var(--pink1),var(--pink2),var(--pink3));
+  background-size:400% 400%;
+  animation:bgMove 15s ease infinite;
 }
 
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* FLOATING HEARTS */
+.heart{
+  position:fixed;
+  bottom:-10vh;
+  font-size:20px;
+  opacity:.3;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(0)}
+  to{transform:translateY(-120vh)}
+}
+
+/* CONFETTI */
 canvas{
   position:fixed;
   inset:0;
@@ -32,101 +55,110 @@ canvas{
   z-index:10;
 }
 
+/* CARD */
 .card{
-  background:#ffffffcc;
-  padding:26px;
-  border-radius:22px;
-  width:min(720px,92vw);
+  background:var(--card);
+  backdrop-filter:blur(12px);
+  padding:28px;
+  border-radius:26px;
+  width:min(760px,94vw);
   text-align:center;
-  box-shadow:0 18px 60px rgba(0,0,0,.15);
+  box-shadow:0 20px 70px rgba(0,0,0,.25);
   z-index:5;
 }
 
-/* GLOWING NAME */
-.name{
-  color:var(--hot);
-  animation:glow 2s ease-in-out infinite alternate;
-}
-@keyframes glow{
-  from{ text-shadow:0 0 6px #ff6b9c }
-  to{ text-shadow:0 0 20px #ff1f68 }
-}
-
 h1{
-  font-size:clamp(26px,4vw,44px);
+  font-size:clamp(28px,4vw,46px);
+  margin-bottom:14px;
 }
 
+/* BUTTONS */
 .zone{
   position:relative;
   height:150px;
-  margin-top:20px;
+  margin-top:22px;
 }
-
 button{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  padding:16px 26px;
+  padding:16px 30px;
   font-size:18px;
   font-weight:800;
   border:none;
   border-radius:999px;
   cursor:pointer;
-  box-shadow:0 10px 24px rgba(0,0,0,.14);
+  box-shadow:0 12px 26px rgba(0,0,0,.25);
 }
-
 #yes{
   left:18%;
-  background:var(--hot);
-  color:white;
+  background:#ff3b7a;
+  color:#fff;
 }
-
 #no{
   left:62%;
   background:#e5e7eb;
 }
 
+/* RESULT */
 .result{
   display:none;
-  animation:pop .4s ease;
+  animation:pop .5s ease;
 }
-
+@keyframes pop{
+  from{opacity:0;transform:scale(.96)}
+  to{opacity:1;transform:scale(1)}
+}
 .result h2{
-  color:#ff1f68;
   font-size:38px;
+  color:#ff1f68;
 }
-
 .love{
   font-size:22px;
   font-weight:800;
-  color:#e11d48;
+  margin-top:6px;
 }
 
-.gif{
-  width:min(360px,90vw);
-  border-radius:18px;
-  margin-top:14px;
+/* POLAROID PHOTOS */
+.photos{
+  margin-top:24px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
 }
-
-@keyframes pop{
-  from{transform:scale(.95);opacity:0}
-  to{transform:scale(1);opacity:1}
+.polaroid{
+  background:#fff;
+  padding:10px 10px 22px;
+  border-radius:6px;
+  width:220px;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  transform:rotate(-3deg);
+}
+.polaroid:nth-child(2){
+  transform:rotate(4deg);
+}
+.polaroid img{
+  width:100%;
+  border-radius:4px;
 }
 
 /* START OVERLAY */
 #overlay{
   position:fixed;
   inset:0;
-  background:rgba(255,214,231,.97);
+  background:linear-gradient(120deg,var(--pink1),var(--pink2));
   display:grid;
   place-items:center;
   z-index:20;
 }
-
 #overlay button{
-  position:static;
-  transform:none;
   font-size:22px;
+  padding:18px 34px;
+  border-radius:999px;
+  border:none;
+  background:#ff3b7a;
+  color:white;
 }
 </style>
 </head>
@@ -135,18 +167,17 @@ button{
 
 <canvas id="confetti"></canvas>
 
-<!-- TAP TO START -->
 <div id="overlay">
-  <button id="start">Tap to start 💛</button>
+  <button id="start">Tap to start ☀️</button>
 </div>
 
-<!-- LOCAL AUDIO (YOU WILL UPLOAD sunshine.mp3) -->
+<!-- AUDIO (UNCHANGED) -->
 <audio id="music" loop preload="auto">
   <source src="sunshine.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
-  <h1><span class="name">Sina</span> ❤️ will you be my Valentine?</h1>
+  <h1>You are my sunshine ☀️</h1>
 
   <div class="zone" id="zone">
     <button id="yes">Yes 💖</button>
@@ -154,87 +185,80 @@ button{
   </div>
 
   <div class="result" id="result">
-    <h2>YAY!!! 💕</h2>
+    <h2>YAY!!! 🎉</h2>
     <div class="love">I will love you until my last breath.</div>
-    <img class="gif" src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif">
+
+    <div class="photos">
+      <div class="polaroid">
+        <img src="photo1.jpg" alt="memory">
+      </div>
+      <div class="polaroid">
+        <img src="photo2.jpg" alt="memory">
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-/* MUSIC – GUARANTEED */
-const start = document.getElementById("start");
-const overlay = document.getElementById("overlay");
-const music = document.getElementById("music");
+/* FLOATING HEARTS */
+for(let i=0;i<20;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.textContent="💗";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=10+Math.random()*10+"s";
+  h.style.fontSize=14+Math.random()*20+"px";
+  document.body.appendChild(h);
+}
 
-start.addEventListener("click", () => {
-  music.currentTime = 0;
-  music.volume = 0.8;
+/* MUSIC */
+const start=document.getElementById("start");
+const overlay=document.getElementById("overlay");
+const music=document.getElementById("music");
+start.onclick=()=>{
   music.play();
-  overlay.style.display = "none";
-});
+  overlay.style.display="none";
+};
 
 /* CONFETTI */
-const canvas = document.getElementById("confetti");
-const resize = () => {
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = innerWidth * dpr;
-  canvas.height = innerHeight * dpr;
+const canvas=document.getElementById("confetti");
+const resize=()=>{
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=innerWidth*dpr;
+  canvas.height=innerHeight*dpr;
 };
 resize();
-addEventListener("resize", resize);
+addEventListener("resize",resize);
 
-const conf = confetti.create(canvas,{resize:false,useWorker:true});
-
-function blast(){
-  const end = Date.now() + 2000;
-  (function frame(){
-    conf({
-      particleCount:10,
-      spread:120,
-      startVelocity:40,
-      origin:{x:Math.random(),y:Math.random()*0.6}
-    });
-    if(Date.now() < end) requestAnimationFrame(frame);
-  })();
-
-  setTimeout(()=>{
-    conf({
-      particleCount:300,
-      spread:160,
-      startVelocity:55,
-      origin:{x:0.5,y:0.5}
-    });
-  },300);
+const conf=confetti.create(canvas,{resize:false,useWorker:true});
+function celebrate(){
+  conf({
+    particleCount:260,
+    spread:140,
+    startVelocity:50,
+    origin:{x:.5,y:.6}
+  });
 }
 
 /* BUTTON LOGIC */
-const yes = document.getElementById("yes");
-const no = document.getElementById("no");
-const zone = document.getElementById("zone");
-const result = document.getElementById("result");
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const zone=document.getElementById("zone");
+const result=document.getElementById("result");
 
-yes.onclick = () => {
-  zone.style.display = "none";
-  result.style.display = "block";
-  blast();
+yes.onclick=()=>{
+  zone.style.display="none";
+  result.style.display="block";
+  celebrate();
 };
 
-const msgs = [
-  "Are you sureee 😏",
-  "Wrong button 😂",
-  "Nice try 😈",
-  "No is disabled today 💕",
-  "That option expired 😌"
-];
-
-no.onmouseover = () => {
-  no.style.left = Math.random() * 70 + "%";
-  no.style.top = Math.random() * 80 + "%";
+no.onmouseover=()=>{
+  no.style.left=Math.random()*70+"%";
+  no.style.top=Math.random()*80+"%";
 };
-
-no.onclick = e => {
+no.onclick=e=>{
   e.preventDefault();
-  alert(msgs[Math.floor(Math.random() * msgs.length)]);
+  alert("Nice try 😌");
 };
 </script>
 
