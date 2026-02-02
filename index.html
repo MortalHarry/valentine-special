@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Will you be my Valentine?</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<style>
+:root{
+  --pink1:#ffd6e7;
+  --pink2:#ffeef6;
+  --hot:#ff3b7a;
+}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle,var(--pink2),var(--pink1));
+  font-family:system-ui,sans-serif;
+  overflow:hidden;
+}
+
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:10;
+}
+
+.card{
+  background:#ffffffcc;
+  padding:26px;
+  border-radius:22px;
+  width:min(720px,92vw);
+  text-align:center;
+  box-shadow:0 18px 60px rgba(0,0,0,.15);
+  z-index:5;
+}
+
+/* GLOWING NAME */
+.name{
+  color:var(--hot);
+  animation:glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow{
+  from{ text-shadow:0 0 6px #ff6b9c }
+  to{ text-shadow:0 0 20px #ff1f68 }
+}
+
+h1{
+  font-size:clamp(26px,4vw,44px);
+}
+
+.zone{
+  position:relative;
+  height:150px;
+  margin-top:20px;
+}
+
+button{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  padding:16px 26px;
+  font-size:18px;
+  font-weight:800;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(0,0,0,.14);
+}
+
+#yes{
+  left:18%;
+  background:var(--hot);
+  color:white;
+}
+
+#no{
+  left:62%;
+  background:#e5e7eb;
+}
+
+.result{
+  display:none;
+  animation:pop .4s ease;
+}
+
+.result h2{
+  color:#ff1f68;
+  font-size:38px;
+}
+
+.love{
+  font-size:22px;
+  font-weight:800;
+  color:#e11d48;
+}
+
+.gif{
+  width:min(360px,90vw);
+  border-radius:18px;
+  margin-top:14px;
+}
+
+@keyframes pop{
+  from{transform:scale(.95);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* START OVERLAY */
+#overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(255,214,231,.97);
+  display:grid;
+  place-items:center;
+  z-index:20;
+}
+
+#overlay button{
+  position:static;
+  transform:none;
+  font-size:22px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<!-- TAP TO START -->
+<div id="overlay">
+  <button id="start">Tap to start 💛</button>
+</div>
+
+<!-- LOCAL AUDIO (YOU WILL UPLOAD sunshine.mp3) -->
+<audio id="music" loop preload="auto">
+  <source src="sunshine.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h1><span class="name">Sina</span> ❤️ will you be my Valentine?</h1>
+
+  <div class="zone" id="zone">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 😏</button>
+  </div>
+
+  <div class="result" id="result">
+    <h2>YAY!!! 💕</h2>
+    <div class="love">I will love you until my last breath.</div>
+    <img class="gif" src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif">
+  </div>
+</div>
+
+<script>
+/* MUSIC – GUARANTEED */
+const start = document.getElementById("start");
+const overlay = document.getElementById("overlay");
+const music = document.getElementById("music");
+
+start.addEventListener("click", () => {
+  music.currentTime = 0;
+  music.volume = 0.8;
+  music.play();
+  overlay.style.display = "none";
+});
+
+/* CONFETTI */
+const canvas = document.getElementById("confetti");
+const resize = () => {
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = innerWidth * dpr;
+  canvas.height = innerHeight * dpr;
+};
+resize();
+addEventListener("resize", resize);
+
+const conf = confetti.create(canvas,{resize:false,useWorker:true});
+
+function blast(){
+  const end = Date.now() + 2000;
+  (function frame(){
+    conf({
+      particleCount:10,
+      spread:120,
+      startVelocity:40,
+      origin:{x:Math.random(),y:Math.random()*0.6}
+    });
+    if(Date.now() < end) requestAnimationFrame(frame);
+  })();
+
+  setTimeout(()=>{
+    conf({
+      particleCount:300,
+      spread:160,
+      startVelocity:55,
+      origin:{x:0.5,y:0.5}
+    });
+  },300);
+}
+
+/* BUTTON LOGIC */
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const zone = document.getElementById("zone");
+const result = document.getElementById("result");
+
+yes.onclick = () => {
+  zone.style.display = "none";
+  result.style.display = "block";
+  blast();
+};
+
+const msgs = [
+  "Are you sureee 😏",
+  "Wrong button 😂",
+  "Nice try 😈",
+  "No is disabled today 💕",
+  "That option expired 😌"
+];
+
+no.onmouseover = () => {
+  no.style.left = Math.random() * 70 + "%";
+  no.style.top = Math.random() * 80 + "%";
+};
+
+no.onclick = e => {
+  e.preventDefault();
+  alert(msgs[Math.floor(Math.random() * msgs.length)]);
+};
+</script>
+
+</body>
+</html>
