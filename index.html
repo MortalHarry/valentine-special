@@ -34,7 +34,7 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* FLOATING HEARTS */
+/* HEARTS */
 .heart{
   position:fixed;
   bottom:-10vh;
@@ -120,23 +120,23 @@ button{
   margin-top:6px;
 }
 
-/* POLAROIDS */
+/* PHOTOS */
 .photos{
   margin-top:26px;
   display:flex;
   justify-content:center;
-  gap:26px;
+  gap:28px;
   flex-wrap:wrap;
 }
 
 .polaroid{
   background:#fff;
-  padding:10px 10px 34px;
-  border-radius:6px;
-  width:230px;
+  padding:10px 10px 36px;
+  border-radius:8px;
+  width:260px;
   box-shadow:0 14px 36px rgba(0,0,0,.28);
-  transform:rotate(-3deg);
   position:relative;
+  transform:rotate(-3deg);
 }
 .polaroid.right{
   transform:rotate(4deg);
@@ -144,23 +144,22 @@ button{
 
 .polaroid img{
   width:100%;
-  border-radius:4px;
+  border-radius:6px;
 }
 
-/* STACKED MINI PHOTO */
+/* FIXED STACKED PHOTO */
 .polaroid.stacked{
-  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
+
 .polaroid.stacked .mini{
-  position:absolute;
-  bottom:38px;
-  right:14px;
-  width:80px;
-  background:white;
-  padding:4px;
+  width:85%;
+  align-self:center;
   border-radius:6px;
   box-shadow:0 8px 20px rgba(0,0,0,.25);
-  transform:rotate(-8deg);
+  transform:rotate(-4deg);
 }
 
 /* CAPTIONS */
@@ -169,7 +168,7 @@ button{
   bottom:8px;
   width:100%;
   text-align:center;
-  font-family:"Comic Sans MS","Segoe Script",cursive;
+  font-family:"Segoe Script","Comic Sans MS",cursive;
   font-size:18px;
   color:#333;
   opacity:.85;
@@ -203,7 +202,6 @@ button{
   <button id="start">Tap to start ☀️</button>
 </div>
 
-<!-- AUDIO (unchanged) -->
 <audio id="music" loop preload="auto">
   <source src="sunshine.mp3" type="audio/mpeg">
 </audio>
@@ -221,10 +219,10 @@ button{
     <div class="love">I will love you until my last breath.</div>
 
     <div class="photos">
-      <!-- POLAROID 1 (STACKED) -->
+      <!-- POLAROID 1 -->
       <div class="polaroid stacked">
         <img src="photo1.jpeg" alt="memory">
-        <img src="photo3.jpeg" class="mini" alt="memory mini">
+        <img src="photo3.jpeg" class="mini" alt="memory">
         <div class="caption">us</div>
       </div>
 
@@ -278,7 +276,7 @@ function celebrate(){
   });
 }
 
-/* BUTTON LOGIC */
+/* BUTTONS */
 const yes=document.getElementById("yes");
 const no=document.getElementById("no");
 const zone=document.getElementById("zone");
